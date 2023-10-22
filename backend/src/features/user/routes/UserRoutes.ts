@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { createRepo } from "../repos/UserRepo";
+import { createRepo, getRepo } from "../repos/UserRepo";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { matchedData } from "express-validator";
 import { UserCreate } from "../models/UserModel";
 
-export function get(req: Request, res: Response): Response {
-  const { id } = matchedData(req);
-  return res.json(id);
+export async function get(req: Request, res: Response): Promise<Response> {
+  const data = matchedData(req) as { id: string };
+  const user = await getRepo(data.id);
+  return res.json(user);
 
   // const user = UserRepo.get(req.params.id);
   // return res.status(HttpStatusCodes.OK).json(user);
