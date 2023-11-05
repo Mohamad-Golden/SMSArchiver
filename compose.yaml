@@ -1,0 +1,51 @@
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: base
+    volumes:
+      - ./backend/src:/usr/smsArchiver/backend/src
+      # - ./nodemon.json:/home/node/app/nodemon.json
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8000:8000
+    links:
+      - db
+    command: npm run dev
+      
+  pgadmin:
+    depends_on:
+      - db
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - ./backend/env/development.env
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    env_file:
+      - ./backend/env/development.env
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
+  pgadmin-data:

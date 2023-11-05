@@ -1,2 +1,1 @@
-# Create schema.prisma file before mirgration
-find . -type f -name "*.prisma" -exec cat {} \; > prisma/schema.prisma
+npx prisma-import --output prisma/schema.prisma --schemas "src/**/*.prisma" -f

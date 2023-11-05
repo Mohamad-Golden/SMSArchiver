@@ -1,17 +1,9 @@
-export interface UserCreate {
+export type UserSession = {
   phone: string;
-  name: string;
   password: string;
-}
-
-export type UserCreateDB = {
-  phone: string;
-  name: string;
-  hashedPassword: string;
 };
 
-
-export const UserCreateSchema = {
+export const UserLoginSchema = {
   phone: {
     isLength: {
       options: {
@@ -21,10 +13,11 @@ export const UserCreateSchema = {
     },
     notEmpty: true,
   },
-  name: {
+  password: {
+    //TODO needs regex too
     isLength: {
       options: {
-        min: 3,
+        min: 8,
         max: 120,
       },
     },

@@ -3,6 +3,7 @@ import { createRepo, getRepo } from "../repos/UserRepo";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { matchedData } from "express-validator";
 import { UserCreate } from "../models/UserModel";
+import PwdUtil from "@src/util/PwdUtil";
 
 export async function get(req: Request, res: Response): Promise<Response> {
   const data = matchedData(req) as { id: string };
@@ -15,6 +16,12 @@ export async function get(req: Request, res: Response): Promise<Response> {
 
 export async function create(req: Request, res: Response): Promise<Response> {
   const userData = matchedData(req) as UserCreate;
-  await createRepo(userData);
+  const hashedPassword = await PwdUtil.getHash(userData.password);
+
+  await createRepo({
+    hashedPassword,
+    name: userData.name,
+    phone: userData.phone,
+  });
   return res.status(HttpStatusCodes.CREATED).json({ msg: "user created" });
 }

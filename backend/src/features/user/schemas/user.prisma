@@ -1,5 +1,9 @@
+import { Session } from "../../auth/schemas/session"
+
 model User {
-  id    String     @id @default(uuid())
-  phone String  @unique
-  name  String?
+  id             String    @id @default(uuid())
+  phone          String    @unique
+  name           String?
+  hashedPassword String
+  sessions       Session[]
 }

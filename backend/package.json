@@ -66,6 +66,7 @@
     "fs-extra": "^11.1.1",
     "jasmine": "^5.1.0",
     "nodemon": "^3.0.1",
+    "prisma-import": "^1.0.4",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
