@@ -1,6 +1,8 @@
 
 services:
   backend:
+    depends_on:
+      - db-postgres
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -12,32 +14,28 @@ services:
       NODE_ENV: development
     ports:
       - 8000:8000
-    links:
-      - db
-    command: npm run dev
+    command: npm run dev:migrate
       
   pgadmin:
     depends_on:
-      - db
+      - db-postgres
     image: dpage/pgadmin4
     restart: always
     env_file:
-      - ./backend/env/development.env
+      - ./backend/.env
     ports:
       - "8080:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-    links:
-      - db
 
-  db:
+  db-postgres:
     image: postgres
     restart: always
     user: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
     env_file:
-      - ./backend/env/development.env
+      - ./backend/.env
     expose:
       - 5432
     healthcheck:
