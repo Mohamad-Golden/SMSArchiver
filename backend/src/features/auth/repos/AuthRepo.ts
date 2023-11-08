@@ -1,6 +1,7 @@
+import { Prisma } from "@prisma/client";
 import dbClient from "@src/PrismaClient";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
-import { conflict } from "@src/constants/routeErrors";
+import { conflict, unauthenticated } from "@src/constants/routeErrors";
 import { RouteError } from "@src/other/classes";
 
 export async function createSessionRepo(userId: string) {
@@ -12,4 +13,13 @@ export async function createSessionRepo(userId: string) {
     ]);
   }
 }
+
+export async function getSessionRepo(where: Prisma.SessionWhereUniqueInput) {
+  try {
+    return await dbClient.session.findUnique({ where: where });
+  } catch (err) {
+    throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [unauthenticated()]);
+  }
+}
+
 export async function deleteSessionRepo() {}

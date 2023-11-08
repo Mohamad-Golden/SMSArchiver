@@ -6,4 +6,7 @@ model User {
   name           String?
   hashedPassword String
   sessions       Session[]
+  lastActionAt   DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

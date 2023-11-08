@@ -7,8 +7,9 @@ export default {
   Base: '/api',
   Auth: {
     Base: '/auth',
-    Login: '/login',
-    Logout: '/logout',
+    Authenticate: '/authenticate',
+    Revoke: '/revoke',
+    Refresh: '/refresh',
   },
   Users: {
     Base: '/users',

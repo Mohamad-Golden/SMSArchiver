@@ -3,7 +3,11 @@ import { Router } from "express";
 
 // import adminMw from './middleware/adminMw';
 import Paths from "../constants/Paths";
+// import userRouter from "@src/features/user/routes/api";
+import AuthRouter from "@src/features/auth/routes/api";
+import AuthMiddleware from "../features/auth/middlewares/UserAuthentication";
 import userRouter from "@src/features/user/routes/api";
+// import AuthMiddleware from "./middleware/Authentication";
 // import User from '@src/models/User';
 // import AuthRoutes from './AuthRoutes';
 // import UserRoutes from './UserRoutes';
@@ -65,7 +69,8 @@ const apiRouter = Router();
 // );
 
 // Add UserRouter
-apiRouter.use(Paths.Users.Base, userRouter);
+apiRouter.use(Paths.Users.Base, AuthMiddleware, userRouter);
+apiRouter.use(Paths.Auth.Base, AuthRouter);
 // apiRouter.use(Paths.Users.Base, adminMw, userRouter);
 
 // **** Export default **** //

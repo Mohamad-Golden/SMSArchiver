@@ -7,7 +7,7 @@ import PwdUtil from "@src/util/PwdUtil";
 
 export async function get(req: Request, res: Response): Promise<Response> {
   const data = matchedData(req) as { id: string };
-  const user = await getRepo(data.id);
+  const user = await getRepo({ id: data.id });
   return res.json(user);
 
   // const user = UserRepo.get(req.params.id);
@@ -18,10 +18,17 @@ export async function create(req: Request, res: Response): Promise<Response> {
   const userData = matchedData(req) as UserCreate;
   const hashedPassword = await PwdUtil.getHash(userData.password);
 
-  await createRepo({
+  const createdUser = await createRepo({
     hashedPassword,
     name: userData.name,
     phone: userData.phone,
   });
-  return res.status(HttpStatusCodes.CREATED).json({ msg: "user created" });
+  return res.status(HttpStatusCodes.CREATED).json({
+    msg: "user created",
+    user: {
+      id: createdUser.id,
+      name: createdUser.name,
+      phone: createdUser.phone,
+    },
+  });
 }

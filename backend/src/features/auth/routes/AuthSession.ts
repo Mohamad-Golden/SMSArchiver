@@ -8,8 +8,9 @@ import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 import PwdUtil from "@src/util/PwdUtil";
 import { RouteError } from "@src/other/classes";
 import EnvVars from "@src/constants/EnvVars";
+import { notFound } from "@src/constants/routeErrors";
 
-// export async function deleteSession(
+// export async function revokeSession(
 //   req: Request,
 //   res: Response
 // ): Promise<Response> {
@@ -23,17 +24,15 @@ export async function createSession(
   res: Response
 ): Promise<Response> {
   const userData = matchedData(req) as UserSession;
-  const user = await getFullUserRepo(userData.phone);
+  const user = await getFullUserRepo({ phone: userData.phone });
   if (await PwdUtil.compare(userData.password, user.hashedPassword)) {
     const { value: sessionValue } = await createSessionRepo(user.id);
     const { Options } = EnvVars.CookieProps;
     return res
       .cookie("SessionId", sessionValue, Options)
       .status(HttpStatusCodes.CREATED)
-      .json({ msg: "session created" });
+      .json({ msg: "Session created" });
   } else {
-    throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [
-      { type: "authentication", msg: "Not authenticated" },
-    ]);
+    throw new RouteError(HttpStatusCodes.NOT_FOUND, [notFound()]);
   }
 }

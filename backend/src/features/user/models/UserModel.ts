@@ -10,6 +10,10 @@ export type UserCreateDB = {
   hashedPassword: string;
 };
 
+export type UserModel = UserCreateDB & {
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export const UserCreateSchema = {
   phone: {
@@ -25,6 +29,16 @@ export const UserCreateSchema = {
     isLength: {
       options: {
         min: 3,
+        max: 120,
+      },
+    },
+    notEmpty: true,
+  },
+  password: {
+    //TODO needs regex too
+    isLength: {
+      options: {
+        min: 8,
         max: 120,
       },
     },

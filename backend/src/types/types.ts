@@ -1,10 +1,7 @@
-import * as e from 'express';
-import { Query } from 'express-serve-static-core';
+import * as e from "express";
+import { Query } from "express-serve-static-core";
+import { Cookies } from "./express";
 
-import { ISessionUser } from '@src/models/User';
-
-
-// **** Express **** //
 
 export interface IReq<T = void> extends e.Request {
   body: T;
@@ -16,7 +13,6 @@ export interface IReqQuery<T extends Query, U = void> extends e.Request {
 }
 
 export interface IRes extends e.Response {
-  locals: {
-    sessionUser?: ISessionUser;
-  };
+  signedCookies: Record<string, string>;
+  cookies: Cookies;
 }

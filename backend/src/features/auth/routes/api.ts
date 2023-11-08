@@ -4,13 +4,15 @@ import { Router } from "express";
 import validate from "@src/util/validator";
 import { checkSchema } from "express-validator";
 import { createSession } from "./AuthSession";
-import { UserLoginSchema } from "../models/UserAuth";
+import { UserAuthSchema } from "../models/UserAuth";
 
-const sessionRouter = Router();
+const AuthRouter = Router();
 
-sessionRouter.post(
-  Paths.Auth.Login,
-  checkSchema(UserLoginSchema),
+AuthRouter.post(
+  Paths.Auth.Authenticate,
+  checkSchema(UserAuthSchema, ["body"]),
   validate,
   createSession
 );
+
+export default AuthRouter;

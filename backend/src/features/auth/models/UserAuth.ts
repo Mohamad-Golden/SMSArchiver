@@ -3,7 +3,7 @@ export type UserSession = {
   password: string;
 };
 
-export const UserLoginSchema = {
+export const UserAuthSchema = {
   phone: {
     isLength: {
       options: {

@@ -13,8 +13,8 @@ WORKDIR /usr/smsArchiver/backend
 COPY backend/package*.json ./
 COPY backend/tsconfig.json ./
 
-RUN npm install
-# npm ci
+# RUN npm install
+RUN npm ci
 
 # Copy the rest of the source files into the image.
 COPY ./backend .
