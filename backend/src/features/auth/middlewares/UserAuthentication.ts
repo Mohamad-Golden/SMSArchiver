@@ -3,6 +3,7 @@ import { getSessionRepo } from "../repos/AuthRepo";
 import { RouteError } from "@src/other/classes";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { unauthenticated } from "@src/constants/routeErrors";
+import EnvVars from "@src/constants/EnvVars";
 import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 
 export default async function AuthMiddleware(
@@ -13,18 +14,18 @@ export default async function AuthMiddleware(
   res;
   next;
   const now = new Date();
-  const expireDate = now.setHours(now.getHours() + 1);
-  const session =
-    req.cookies.SessionId &&
-    (await getSessionRepo({
-      value: req.cookies.SessionId,
-      createdAt: { lt: expireDate },
-    }));
-  if (session) {
-    const user = await getFullUserRepo({ id: session.userId });
-    res.locals.currentUser = user;
-    next();
-  } else {
+  const expireDate = new Date(
+    now.getTime() - EnvVars.CookieProps.Options.maxAge
+  );
+  if (!req.cookies.SessionId)
     throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [unauthenticated()]);
-  }
+
+  const session = await getSessionRepo({
+    value: req.cookies.SessionId,
+    createdAt: { gt: expireDate },
+  });
+
+  const user = await getFullUserRepo({ id: session.userId });
+  res.locals.currentUser = user;
+  next();
 }

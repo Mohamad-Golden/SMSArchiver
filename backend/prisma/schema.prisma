@@ -21,8 +21,9 @@ datasource db {
 //
 
 model Session {
-  value     String   @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
+  value     String   @unique
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

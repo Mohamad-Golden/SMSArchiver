@@ -22,7 +22,7 @@ COPY ./backend .
 RUN chmod +x ./prisma.sh
 RUN ./prisma.sh
 
-RUN npx prisma generate
+# RUN npx prisma generate
 
 # Production stage
 FROM base as production

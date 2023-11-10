@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Session" ALTER COLUMN "expireAt" SET DEFAULT NOW() + INTERVAL '1 DAY';

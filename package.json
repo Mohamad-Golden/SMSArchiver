@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "swagger-express-ts": "^1.1.0"
+  }
+}

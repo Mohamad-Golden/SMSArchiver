@@ -3,7 +3,11 @@ import { Router } from "express";
 // import { create, get } from "./UserRoutes";
 import validate from "@src/util/validator";
 import { checkSchema } from "express-validator";
-import { createSession } from "./AuthSession";
+import {
+  createSession,
+  refreshSession,
+  revokeSession,
+} from "./AuthSession";
 import { UserAuthSchema } from "../models/UserAuth";
 
 const AuthRouter = Router();
@@ -14,5 +18,9 @@ AuthRouter.post(
   validate,
   createSession
 );
+
+AuthRouter.delete(Paths.Auth.Revoke, revokeSession);
+
+AuthRouter.get(Paths.Auth.Refresh, refreshSession);
 
 export default AuthRouter;

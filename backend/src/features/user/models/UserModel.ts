@@ -1,16 +1,18 @@
 export interface UserCreate {
   phone: string;
-  name: string;
+  name?: string;
   password: string;
 }
 
 export type UserCreateDB = {
   phone: string;
-  name: string;
+  name?: string | null;
   hashedPassword: string;
 };
 
 export type UserModel = UserCreateDB & {
+  id: string;
+  lastActionAt: Date;
   createdAt: Date;
   updatedAt: Date;
 };

@@ -9,12 +9,14 @@ services:
       target: base
     volumes:
       - ./backend/src:/usr/smsArchiver/backend/src
-      # - ./nodemon.json:/home/node/app/nodemon.json
+      - ./backend/prisma:/usr/smsArchiver/backend/prisma
+      - ./backend/node_modules/.prisma/client:/usr/smsArchiver/backend/node_modules/.prisma/client
+      - backend-modules:/usr/smsArchiver/backend/node_modules
     environment:
       NODE_ENV: development
     ports:
       - 8000:8000
-    command: npm run dev:migrate
+    command: npm run dev
       
   pgadmin:
     depends_on:
@@ -47,3 +49,4 @@ services:
 volumes:
   db-data:
   pgadmin-data:
+  backend-modules:

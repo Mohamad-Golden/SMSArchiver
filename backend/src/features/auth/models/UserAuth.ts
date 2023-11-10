@@ -3,6 +3,11 @@ export type UserSession = {
   password: string;
 };
 
+export type Session = {
+  userId: string,
+  value: string
+}
+
 export const UserAuthSchema = {
   phone: {
     isLength: {
