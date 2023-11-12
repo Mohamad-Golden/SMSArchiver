@@ -11,9 +11,27 @@
     "application/json"
   ],
   "paths": {
-    "/users": {
+    "/api/auth/authenticate": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Authenticate users",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserAuth"
+            }
+          }
+        ]
+      }
+    },
+    "api/users": {
       "get": {
-        "summary": "get user info",
+        "summary": "Get user info",
         "operationId": "ListFeatures",
         "parameters": [
           {
@@ -62,6 +80,19 @@
         "lastActionAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "UserAuth": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "format": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "string"
         }
       }
     }

@@ -25,7 +25,11 @@ export default async function AuthMiddleware(
     createdAt: { gt: expireDate },
   });
 
-  const user = await getFullUserRepo({ id: session.userId });
+  const user = await getFullUserRepo(
+    { id: session.userId },
+    HttpStatusCodes.UNAUTHORIZED,
+    [unauthenticated()]
+  );
   res.locals.currentUser = user;
   next();
 }

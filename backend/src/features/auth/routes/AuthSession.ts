@@ -12,16 +12,19 @@ import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 import PwdUtil from "@src/util/PwdUtil";
 import { RouteError } from "@src/other/classes";
 import EnvVars from "@src/constants/EnvVars";
-import { notFound, unauthenticated } from "@src/constants/routeErrors";
+import { badRequest, unauthenticated } from "@src/constants/routeErrors";
 import { generateSession } from "../utils/session";
-
 
 export async function createSession(
   req: Request,
   res: Response
 ): Promise<Response> {
   const userData = matchedData(req) as UserSession;
-  const user = await getFullUserRepo({ phone: userData.phone });
+  const user = await getFullUserRepo(
+    { phone: userData.phone },
+    HttpStatusCodes.BAD_REQUEST,
+    [badRequest("invalid credentials")]
+  );
   if (await PwdUtil.compare(userData.password, user.hashedPassword)) {
     const { value: sessionValue } = await createSessionRepo({
       userId: user.id,
@@ -36,7 +39,9 @@ export async function createSession(
       .status(HttpStatusCodes.CREATED)
       .json({ msg: "Session created" });
   } else {
-    throw new RouteError(HttpStatusCodes.NOT_FOUND, [notFound()]);
+    throw new RouteError(HttpStatusCodes.BAD_REQUEST, [
+      badRequest("invalid credentials"),
+    ]);
   }
 }
 

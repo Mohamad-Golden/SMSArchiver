@@ -3,11 +3,7 @@ import { dbClient } from "@src/PrismaClient";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { Prisma } from "@prisma/client";
 import { UserCreateDB } from "../models/UserModel";
-import {
-  conflict,
-  notFound,
-  unauthenticated,
-} from "@src/constants/routeErrors";
+import { conflict, notFound } from "@src/constants/routeErrors";
 // import { Prisma } from "@prisma/client";
 
 export async function getRepo(where: Prisma.UserWhereUniqueInput) {
@@ -43,7 +39,7 @@ export async function getFullUserRepo(
   });
   if (user) return user;
   throw new RouteError(
-    errorStatusCode ?? HttpStatusCodes.UNAUTHORIZED,
-    errors ?? [unauthenticated()]
+    errorStatusCode ?? HttpStatusCodes.NOT_FOUND,
+    errors ?? [notFound()]
   );
 }
