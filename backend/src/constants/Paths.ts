@@ -4,7 +4,7 @@
 
 export default {
   Base: "/api",
-  Swagger: "docs",
+  Swagger: "/docs",
   Auth: {
     Base: "/auth",
     Authenticate: "/authenticate",
