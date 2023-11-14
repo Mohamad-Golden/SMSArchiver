@@ -1,17 +1,14 @@
 import { Request, Response } from "express";
-import { createRepo, getRepo } from "../repos/UserRepo";
+import { createRepo } from "../repos/UserRepo";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { matchedData } from "express-validator";
 import { UserCreate } from "../models/UserModel";
 import PwdUtil from "@src/util/PwdUtil";
+import { Res } from "@src/types/types";
 
-export async function get(req: Request, res: Response): Promise<Response> {
-  const data = matchedData(req) as { id: string };
-  const user = await getRepo({ id: data.id });
-  return res.json(user);
-
-  // const user = UserRepo.get(req.params.id);
-  // return res.status(HttpStatusCodes.OK).json(user);
+export function get(req: Request, res: Res): Response {
+  const { phone, name, id } = res.locals.currentUser;
+  return res.status(HttpStatusCodes.ACCEPTED).json({ phone, name, id });
 }
 
 export async function create(req: Request, res: Response): Promise<Response> {

@@ -13,9 +13,17 @@ export default {
   },
   Users: {
     Base: "/users",
+    AuthBase: "/authUsers",
     Get: "",
     Create: "/create",
     Update: "/update",
     Delete: "/delete/:id",
+  },
+  Message: {
+    Base: "/msg",
+    GetList: "/list",
+    Get: "",
+    Create: "/create",
+    Delete: "/delete",
   },
 } as const;

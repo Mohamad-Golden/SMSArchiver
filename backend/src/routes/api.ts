@@ -10,6 +10,7 @@ import userRouter from "@src/features/user/routes/api";
 import { serve, setup } from "swagger-ui-express";
 import swaggerJson from "../../swagger.json";
 import { JsonObject } from "@prisma/client/runtime/library";
+import userAuthRouter from "@src/features/user/routes/apiAuth";
 // import AuthMiddleware from "./middleware/Authentication";
 // import User from '@src/models/User';
 // import AuthRoutes from './AuthRoutes';
@@ -72,7 +73,8 @@ const apiRouter = Router();
 // );
 
 // Add UserRouter
-apiRouter.use(Paths.Users.Base, AuthMiddleware, userRouter);
+apiRouter.use(Paths.Users.Base, userRouter);
+apiRouter.use(Paths.Users.AuthBase, AuthMiddleware, userAuthRouter);
 apiRouter.use(Paths.Auth.Base, AuthRouter);
 apiRouter.use(Paths.Swagger, serve);
 apiRouter.use(Paths.Swagger, setup(swaggerJson as JsonObject));

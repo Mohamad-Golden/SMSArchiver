@@ -6,7 +6,6 @@ import {
   deleteSessionRepo,
   updateSessionRepo,
 } from "../repos/AuthRepo";
-// import { Prisma } from "@prisma/client";
 import { UserSession } from "../models/UserAuth";
 import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 import PwdUtil from "@src/util/PwdUtil";
@@ -49,7 +48,7 @@ export async function revokeSession(
   req: Request,
   res: Response
 ): Promise<Response> {
-  await deleteSessionRepo({ value: req.cookies.SessionId });
+  await deleteSessionRepo({ value: req.signedCookies.SessionId });
   return res
     .clearCookie(EnvVars.CookieProps.Key)
     .status(HttpStatusCodes.OK)
@@ -64,12 +63,12 @@ export async function refreshSession(
   const expireDate = new Date(
     now.getTime() - EnvVars.CookieProps.Options.maxAge
   );
-  if (!req.cookies.SessionId)
+  if (!req.signedCookies.SessionId)
     throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [unauthenticated()]);
   const newSession = await updateSessionRepo(
     {
-      value: req.cookies.SessionId,
-      createdAt: { lt: expireDate },
+      value: req.signedCookies.SessionId,
+      updatedAt: { lt: expireDate },
     },
     { value: await generateSession() }
   );
@@ -80,5 +79,5 @@ export async function refreshSession(
       EnvVars.CookieProps.Options
     )
     .status(HttpStatusCodes.OK)
-    .json({ msg: "Session refreshed" });
+    .json({ msg: "Session updated" });
 }

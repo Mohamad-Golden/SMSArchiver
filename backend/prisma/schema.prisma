@@ -30,6 +30,21 @@ model Session {
 }
 
 //
+// message.prisma
+//
+
+model Message {
+  id        String   @id @default(uuid())
+  message   String
+  from      User     @relation(fields: [fromId], references: [id], name: "from")
+  to        User     @relation(fields: [toId], references: [id], name: "to")
+  fromId    String
+  toId      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
 // user.prisma
 //
 
@@ -42,4 +57,6 @@ model User {
   lastActionAt   DateTime  @default(now())
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  fromMessages   Message[] @relation(name: "from")
+  toMessages     Message[] @relation(name: "to")
 }

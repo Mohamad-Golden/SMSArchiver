@@ -29,16 +29,9 @@
         ]
       }
     },
-    "api/users": {
+    "/api/authUsers": {
       "get": {
         "summary": "Get user info",
-        "operationId": "ListFeatures",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "",

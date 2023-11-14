@@ -17,14 +17,13 @@ export default async function AuthMiddleware(
   const expireDate = new Date(
     now.getTime() - EnvVars.CookieProps.Options.maxAge
   );
-  if (!req.cookies.SessionId)
+  if (!req.signedCookies.SessionId)
     throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [unauthenticated()]);
 
   const session = await getSessionRepo({
-    value: req.cookies.SessionId,
-    createdAt: { gt: expireDate },
+    value: req.signedCookies.SessionId,
+    updatedAt: { gt: expireDate },
   });
-
   const user = await getFullUserRepo(
     { id: session.userId },
     HttpStatusCodes.UNAUTHORIZED,

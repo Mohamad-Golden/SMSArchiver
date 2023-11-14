@@ -1,4 +1,3 @@
-import { UserModel } from "@src/features/user/models/UserModel";
 import "express";
 
 // **** Declaration Merging **** //
@@ -12,9 +11,9 @@ declare module "express" {
     signedCookies: Record<string, string>;
     cookies: Cookies;
   }
-  export interface Response {
-    locals: {
-      currentUser?: UserModel;
-    };
-  }
+  // export interface Response {
+  //   locals: {
+  //     currentUser?: UserModel;
+  //   };
+  // }
 }
