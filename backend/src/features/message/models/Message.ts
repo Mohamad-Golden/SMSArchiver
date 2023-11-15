@@ -20,3 +20,13 @@ export const CreateMessageSchema = {
     notEmpty: true,
   },
 };
+
+export const MessageListSchema = {
+  toId: {
+    notEmpty: true,
+  },
+};
+
+export type MessageList = {
+  toId: string;
+};

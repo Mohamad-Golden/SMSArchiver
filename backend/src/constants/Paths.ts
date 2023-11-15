@@ -22,6 +22,7 @@ export default {
   Message: {
     Base: "/msg",
     GetList: "/list",
+    Inbox: "/inbox",
     Get: "",
     Create: "/create",
     Delete: "/delete",

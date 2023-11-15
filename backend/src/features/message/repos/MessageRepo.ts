@@ -3,7 +3,7 @@ import { CreateMessage } from "../models/Message";
 import dbClient from "@src/PrismaClient";
 import { conflict, notFound } from "@src/constants/routeErrors";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
-import { Prisma } from "@prisma/client";
+import { Prisma, Message } from "@prisma/client";
 
 export async function createMessageRepo(
   data: CreateMessage,
@@ -33,7 +33,21 @@ export async function getMessageRepo(
   );
 }
 
-export async function listMessageRepo(queryString: string) {
-  const messages = await dbClient.$queryRaw`${queryString}`;
+export async function messageInboxRepo(userId: string) {
+  const messages = await dbClient.$queryRaw<Message[]>`
+  SELECT m.*
+  FROM message m
+  WHERE m.createdAt = (SELECT MAX(m2.createdAt)
+      FROM message m2
+      WHERE 
+        (m2.fromId = m.fromId AND m2.toId = m.toId) OR
+        (m2.fromId = m.toId AND m2.toId = m.fromId) 
+        ) AND (m.fromId = ${userId} OR m.toId = ${userId})
+  ORDER BY m.createdAt DESC`;
+  return messages;
+}
+
+export async function listMessageRepo(args: Prisma.MessageFindManyArgs) {
+  const messages = await dbClient.message.findMany(args);
   return messages;
 }
