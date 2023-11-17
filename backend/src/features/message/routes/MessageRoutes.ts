@@ -9,7 +9,11 @@ import {
 } from "../repos/MessageRepo";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { Request } from "express";
-import { InputPagination } from "@src/models/Pagination";
+import {
+  InputCursorPagination,
+  InputOffsetPagination,
+} from "@src/models/Pagination";
+import { cursorPagination, getNextPage } from "@src/constants/Pagination";
 
 export async function createMessage(req: Request, res: Res): Promise<Res> {
   const inputData = matchedData(req) as CreateMessageInput;
@@ -21,16 +25,23 @@ export async function createMessage(req: Request, res: Res): Promise<Res> {
 export async function getMessage(req: Request, res: Res): Promise<Res> {
   const inputData = matchedData(req) as { id: string };
   const message = await getMessageRepo({ id: inputData.id });
-  return res.status(HttpStatusCodes.ACCEPTED).json(message);
+  return res.status(HttpStatusCodes.OK).json(message);
 }
 
 export async function messageInbox(req: Request, res: Res): Promise<Res> {
-  const messageList = await messageInboxRepo(res.locals.currentUser.id);
-  return res.status(HttpStatusCodes.ACCEPTED).json(messageList);
+  const { size, offset } = matchedData(req) as InputOffsetPagination;
+  const messageList = await messageInboxRepo(
+    res.locals.currentUser.id,
+    size,
+    offset
+  );
+  return res
+    .status(HttpStatusCodes.OK)
+    .json({ users: messageList, offset: offset });
 }
 
 export async function listMessage(req: Request, res: Res): Promise<Res> {
-  const inputData = matchedData(req) as MessageList & InputPagination;
+  const inputData = matchedData(req) as MessageList & InputCursorPagination;
   const messageList = await listMessageRepo({
     where: {
       OR: [
@@ -38,8 +49,10 @@ export async function listMessage(req: Request, res: Res): Promise<Res> {
         { fromId: inputData.toId, toId: res.locals.currentUser.id },
       ],
     },
-    // cursor: { id: inputData.cursor },
-    skip: 1,
+    ...cursorPagination(inputData.size, inputData.cursor),
   });
-  return res.status(HttpStatusCodes.ACCEPTED).json(messageList);
+
+  return res
+    .status(HttpStatusCodes.OK)
+    .json({ messages: messageList, nextPage: getNextPage(messageList) });
 }

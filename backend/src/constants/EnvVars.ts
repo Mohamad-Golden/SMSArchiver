@@ -20,6 +20,10 @@ export default {
       secure: process.env.SECURE_COOKIE === "true",
     },
   },
+  PaginationSize: 40,
+  Session: {
+    EXP: Number(process.env.SESSION_EXP ?? 1000),
+  },
   // Jwt: {
   //   Secret: (process.env.JWT_SECRET ??  ''),
   //   Exp: (process.env.COOKIE_EXP ?? '')

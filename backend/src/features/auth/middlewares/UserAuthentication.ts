@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getSessionRepo } from "../repos/AuthRepo";
+import { getSessionRepo } from "../repos/SessionRepo";
 import { RouteError } from "@src/other/classes";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { unauthenticated } from "@src/constants/routeErrors";
@@ -14,9 +14,7 @@ export default async function AuthMiddleware(
   res;
   next;
   const now = new Date();
-  const expireDate = new Date(
-    now.getTime() - EnvVars.CookieProps.Options.maxAge
-  );
+  const expireDate = new Date(now.getTime() - EnvVars.Session.EXP);
   if (!req.signedCookies.SessionId)
     throw new RouteError(HttpStatusCodes.UNAUTHORIZED, [unauthenticated()]);
 

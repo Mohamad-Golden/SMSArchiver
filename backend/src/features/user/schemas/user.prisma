@@ -1,5 +1,5 @@
 import { Session } from "../../auth/schemas/session"
-import { Message} from "../../sms/schemas/message"
+import { Message } from "../../message/schemas/message"
 
 model User {
   id             String    @id @default(uuid())

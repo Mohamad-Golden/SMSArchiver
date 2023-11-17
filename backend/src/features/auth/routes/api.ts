@@ -7,7 +7,7 @@ import {
   createSession,
   refreshSession,
   revokeSession,
-} from "./AuthSession";
+} from "./SessionRoutes";
 import { UserAuthSchema } from "../models/UserAuth";
 
 const AuthRouter = Router();

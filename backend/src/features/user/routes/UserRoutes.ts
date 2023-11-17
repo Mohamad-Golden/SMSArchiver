@@ -8,7 +8,7 @@ import { Res } from "@src/types/types";
 
 export function get(req: Request, res: Res): Response {
   const { phone, name, id } = res.locals.currentUser;
-  return res.status(HttpStatusCodes.ACCEPTED).json({ phone, name, id });
+  return res.status(HttpStatusCodes.OK).json({ phone, name, id });
 }
 
 export async function create(req: Request, res: Response): Promise<Response> {

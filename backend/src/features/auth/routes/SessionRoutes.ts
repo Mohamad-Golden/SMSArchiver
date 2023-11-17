@@ -5,7 +5,7 @@ import {
   createSessionRepo,
   deleteSessionRepo,
   updateSessionRepo,
-} from "../repos/AuthRepo";
+} from "../repos/SessionRepo";
 import { UserSession } from "../models/UserAuth";
 import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 import PwdUtil from "@src/util/PwdUtil";

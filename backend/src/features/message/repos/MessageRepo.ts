@@ -33,17 +33,37 @@ export async function getMessageRepo(
   );
 }
 
-export async function messageInboxRepo(userId: string) {
+export async function messageInboxRepo(
+  userId: string,
+  size: number,
+  offset: number
+) {
   const messages = await dbClient.$queryRaw<Message[]>`
-  SELECT m.*
-  FROM message m
-  WHERE m.createdAt = (SELECT MAX(m2.createdAt)
-      FROM message m2
-      WHERE 
-        (m2.fromId = m.fromId AND m2.toId = m.toId) OR
-        (m2.fromId = m.toId AND m2.toId = m.fromId) 
-        ) AND (m.fromId = ${userId} OR m.toId = ${userId})
-  ORDER BY m.createdAt DESC`;
+    SELECT u.id, u.phone, u.name, JSON_OBJECT(
+      'id': "sub"."id",
+      'text': "sub"."text",
+      'fromId': "sub"."fromId",
+      'toId': "sub"."toId",
+      'createdAt': "sub"."createdAt"
+    ) as "lastMessage"
+    FROM (
+        SELECT m.* , 
+        CASE
+            WHEN "m"."fromId" = ${userId} THEN "m"."toId"
+            WHEN "m"."toId" = ${userId} THEN "m"."fromId"
+        END AS targetUserId
+        FROM "Message" "m" 
+        WHERE "m"."createdAt" = (
+            SELECT MAX("m2"."createdAt")
+            FROM "Message" "m2"
+            WHERE 
+                ("m2"."fromId" = "m"."fromId" AND "m2"."toId" = "m"."toId") OR
+                ("m2"."fromId" = "m"."toId" AND "m2"."toId" = "m"."fromId")
+            ) AND ("m"."fromId" = ${userId} OR "m"."toId" = ${userId})
+        ORDER BY "m"."createdAt" DESC LIMIT ${size} OFFSET ${offset}
+    ) AS sub
+    LEFT JOIN "User" u ON sub.targetUserId = u.id;
+  `;
   return messages;
 }
 

@@ -1,5 +1,5 @@
 export type CreateMessageInput = {
-  message: string;
+  text: string;
   toId: string;
 };
 export type CreateMessage = CreateMessageInput & {
@@ -7,7 +7,7 @@ export type CreateMessage = CreateMessageInput & {
 };
 
 export const CreateMessageSchema = {
-  message: {
+  text: {
     notEmpty: true,
   },
   toId: {

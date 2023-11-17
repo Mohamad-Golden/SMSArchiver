@@ -4,7 +4,10 @@ import { checkSchema } from "express-validator";
 import { CreateMessageSchema, MessageListSchema } from "../models/Message";
 import validate from "@src/util/validator";
 import { createMessage, listMessage, messageInbox } from "./MessageRoutes";
-import { PaginationSchema } from "@src/models/Pagination";
+import {
+  CursorPaginationSchema,
+  OffsetPaginationSchema,
+} from "@src/models/Pagination";
 
 const messageRouter = Router();
 
@@ -15,11 +18,18 @@ messageRouter.post(
   createMessage
 );
 
-messageRouter.get(Paths.Message.Inbox, messageInbox);
+messageRouter.get(
+  Paths.Message.Inbox,
+  checkSchema(OffsetPaginationSchema, ["query"]),
+  validate,
+  messageInbox
+);
 
 messageRouter.get(
   Paths.Message.GetList,
-  checkSchema({ ...PaginationSchema, ...MessageListSchema }, ["query"]),
+  checkSchema({ ...CursorPaginationSchema, ...MessageListSchema }, ["query"]),
   validate,
   listMessage
 );
+
+export default messageRouter;

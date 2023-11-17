@@ -35,7 +35,7 @@ model Session {
 
 model Message {
   id        String   @id @default(uuid())
-  message   String
+  text      String
   from      User     @relation(fields: [fromId], references: [id], name: "from")
   to        User     @relation(fields: [toId], references: [id], name: "to")
   fromId    String
