@@ -1,8 +1,20 @@
 {
-  "dependencies": {
-    "graphql": "^15.8.0",
-    "graphql-scalars": "^1.22.4",
-    "reflect-metadata": "^0.1.13",
-    "type-graphql": "^1.1.1"
+  "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.3"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
   }
 }
