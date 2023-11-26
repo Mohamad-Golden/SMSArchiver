@@ -1,4 +1,4 @@
-import { User } from "../../user/schemas/user"
+import { User } from "../../user/prisma/user"
 
 model Session {
   id        String   @id @default(uuid())

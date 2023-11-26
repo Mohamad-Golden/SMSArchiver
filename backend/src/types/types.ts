@@ -1,6 +1,6 @@
 import * as e from "express";
 import { Query } from "express-serve-static-core";
-import { UserModel } from "@src/features/user/models/UserModel";
+import { UserModel } from "@src/features/user/schemas/UserModel";
 
 export interface Req<T = void> extends e.Request {
   body: T;

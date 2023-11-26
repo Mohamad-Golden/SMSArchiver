@@ -3,7 +3,7 @@ import { Router } from "express";
 import { create } from "./UserRoutes";
 import validate from "@src/util/validator";
 import { checkSchema } from "express-validator";
-import { UserCreateSchema } from "../models/UserModel";
+import { UserCreateSchema } from "../schemas/UserModel";
 
 const userRouter = Router();
 

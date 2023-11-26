@@ -2,7 +2,7 @@ import { ErrorDetail, RouteError } from "@src/other/classes";
 import { dbClient } from "@src/PrismaClient";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { Prisma } from "@prisma/client";
-import { UserCreateDB } from "../models/UserModel";
+import { UserCreateDB } from "../schemas/UserModel";
 import { conflict, notFound } from "@src/constants/routeErrors";
 // import { Prisma } from "@prisma/client";
 

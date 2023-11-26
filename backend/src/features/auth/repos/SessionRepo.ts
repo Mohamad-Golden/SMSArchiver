@@ -7,7 +7,7 @@ import {
   unauthenticated,
 } from "@src/constants/routeErrors";
 import { RouteError } from "@src/other/classes";
-import { Session } from "../models/UserAuth";
+import { Session } from "../schemas/UserAuth";
 
 export async function createSessionRepo(data: Session) {
   try {

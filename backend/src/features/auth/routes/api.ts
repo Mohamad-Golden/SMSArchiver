@@ -3,12 +3,8 @@ import { Router } from "express";
 // import { create, get } from "./UserRoutes";
 import validate from "@src/util/validator";
 import { checkSchema } from "express-validator";
-import {
-  createSession,
-  refreshSession,
-  revokeSession,
-} from "./SessionRoutes";
-import { UserAuthSchema } from "../models/UserAuth";
+import { createSession, refreshSession, revokeSession } from "./SessionRoutes";
+import { UserAuthSchema } from "../schemas/UserAuth";
 
 const AuthRouter = Router();
 

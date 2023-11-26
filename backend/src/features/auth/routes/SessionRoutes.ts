@@ -6,7 +6,7 @@ import {
   deleteSessionRepo,
   updateSessionRepo,
 } from "../repos/SessionRepo";
-import { UserSession } from "../models/UserAuth";
+import { UserSession } from "../schemas/UserAuth";
 import { getFullUserRepo } from "@src/features/user/repos/UserRepo";
 import PwdUtil from "@src/util/PwdUtil";
 import { RouteError } from "@src/other/classes";

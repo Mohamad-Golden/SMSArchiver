@@ -1,6 +1,6 @@
 import { Res } from "@src/types/types";
 import { matchedData } from "express-validator";
-import { CreateMessageInput, MessageList } from "../models/Message";
+import { CreateMessageInput, MessageList } from "../schemas/Message";
 import {
   getMessageRepo,
   createMessageRepo,
@@ -12,7 +12,7 @@ import { Request } from "express";
 import {
   InputCursorPagination,
   InputOffsetPagination,
-} from "@src/models/Pagination";
+} from "@src/schemas/Pagination";
 import { cursorPagination, getNextPage } from "@src/constants/Pagination";
 
 export async function createMessage(req: Request, res: Res): Promise<Res> {

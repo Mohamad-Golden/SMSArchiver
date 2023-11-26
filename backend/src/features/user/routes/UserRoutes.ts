@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { createRepo } from "../repos/UserRepo";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
 import { matchedData } from "express-validator";
-import { UserCreate } from "../models/UserModel";
+import { UserCreate } from "../schemas/UserModel";
 import PwdUtil from "@src/util/PwdUtil";
 import { Res } from "@src/types/types";
 

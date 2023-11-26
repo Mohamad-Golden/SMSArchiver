@@ -1,13 +1,13 @@
 import Paths from "@src/constants/Paths";
 import { Router } from "express";
 import { checkSchema } from "express-validator";
-import { CreateMessageSchema, MessageListSchema } from "../models/Message";
+import { CreateMessageSchema, MessageListSchema } from "../schemas/Message";
 import validate from "@src/util/validator";
 import { createMessage, listMessage, messageInbox } from "./MessageRoutes";
 import {
   CursorPaginationSchema,
   OffsetPaginationSchema,
-} from "@src/models/Pagination";
+} from "@src/schemas/Pagination";
 
 const messageRouter = Router();
 

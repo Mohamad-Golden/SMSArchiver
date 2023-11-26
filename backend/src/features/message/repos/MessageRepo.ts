@@ -1,5 +1,5 @@
 import { ErrorDetail, RouteError } from "@src/other/classes";
-import { CreateMessage } from "../models/Message";
+import { CreateMessage } from "../schemas/Message";
 import dbClient from "@src/PrismaClient";
 import { conflict, notFound } from "@src/constants/routeErrors";
 import HttpStatusCodes from "@src/constants/HttpStatusCodes";
